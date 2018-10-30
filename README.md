@@ -11,7 +11,7 @@ workflow "Send SMS On Push" {
 }
 
 action "notification" {
-    uses = "cr0wst/nexmo-sms-action@master"
+    uses = "nexmo-community/nexmo-sms-action@master"
     secrets = [
         "NEXMO_API_KEY",
         "NEXMO_API_SECRET",
@@ -30,7 +30,6 @@ This action uses the following required secrets:
 - `NEXMO_API_SECRETE` - Your Nexmo API Secret.
 - `NEXMO_NUMBER` - A number on your nexmo account without any spaces or symbols. Example: 15551231234
 - `TO_NUMBER` - The number you wish to send the message to. Example: 15551231234
-
 
 [GitHub Actions]: https://github.com/actions
 [Nexmo]: https://developer.nexmo.com
