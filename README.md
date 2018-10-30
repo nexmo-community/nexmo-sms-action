@@ -57,8 +57,8 @@ This allows for you to reuse this action to send messages to various recipients.
 This action uses the following required secrets:
 
 - `NEXMO_API_KEY` - Your Nexmo API Key.
-- `NEXMO_API_SECRETE` - Your Nexmo API Secret.
-- `NEXMO_NUMBER` - A number on your nexmo account without any spaces or symbols. Example: 15551231234
+- `NEXMO_API_SECRET` - Your Nexmo API Secret.
+- `NEXMO_NUMBER` - A number on your Nexmo account without any spaces or symbols. Example: 15551231234
 
 [GitHub Actions]: https://github.com/actions
 [Nexmo]: https://developer.nexmo.com
