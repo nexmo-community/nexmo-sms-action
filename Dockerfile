@@ -9,6 +9,9 @@ LABEL "repository"="http://github.com/nexmo-community/nexmo-sms-action"
 LABEL "homepage"="http://developer.nexmo.com"
 LABEL "maintainer"="Steve Crow <steve.crow@nexmo.com>"
 
+RUN apt-get update && \
+  apt-get install -y --no-install-recommends jq
+
 RUN npm install -g nexmo-cli
 
 ADD entrypoint.sh /entrypoint.sh
