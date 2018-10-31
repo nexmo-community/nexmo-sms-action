@@ -19,8 +19,7 @@ action "notification" {
     secrets = [
         "NEXMO_API_KEY",
         "NEXMO_API_SECRET",
-        "NEXMO_NUMBER",
-        "TO_NUMBER"
+        "NEXMO_NUMBER"
     ]
     args = "15551234567 New pull on $GITHUB_REPOSITORY from $GITHUB_ACTOR."
 }
@@ -30,7 +29,7 @@ will send `New pull on $GITHUB_REPOSITORY from $GITHUB_ACTOR` to `15551234567`.
 
 If you don't want to expose your recipient number, you can use secrets.
 
-For example, a new secret called `DEVOPS_PHONE` could be used inside of `args` as follows:
+For example, a new secret called `DEVOPS_NUMBER` could be used inside of `args` as follows:
 
 ```workflow
 workflow "Send SMS On Push" {
@@ -44,9 +43,9 @@ action "notification" {
         "NEXMO_API_KEY",
         "NEXMO_API_SECRET",
         "NEXMO_NUMBER",
-        "TO_NUMBER"
+        "DEVOPS_NUMBER"
     ]
-    args = "$DEVOPS_PHONE New pull on $GITHUB_REPOSITORY from $GITHUB_ACTOR."
+    args = "$DEVOPS_NUMBER New pull on $GITHUB_REPOSITORY from $GITHUB_ACTOR."
 }
 ```
 
