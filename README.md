@@ -1,7 +1,9 @@
 # Nexmo SMS Action
 
-Send an SMS from [GitHub Actions](https://github.com/features/actions) using [Nexmo](https://www.nexmo.com/). The passed in `args` represent the contents of the message.
-For additional details, see [Send SMS with GitHub Actions](https://www.nexmo.com/blog/2019/02/08/send-sms-github-actions-dr/)
+Send an SMS from [GitHub Actions](https://github.com/features/actions) using [Nexmo](https://www.nexmo.com/). 
+
+For additional details, see the blog post [Send SMS with GitHub Actions](https://www.nexmo.com/blog/2019/02/08/send-sms-github-actions-dr/)
+
 ## Usage
 
 The `args` represent the recipient and the contents of the message. 
