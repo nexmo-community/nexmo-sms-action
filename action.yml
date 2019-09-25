@@ -1,0 +1,19 @@
+name: "Nexmo Send SMS"
+description: "Send an SMS using Nexmo"
+author: "Nexmo <devrel@nexmo.com>"
+branding:
+  icon: "smartphone"
+  color: "blue"
+inputs:
+  nexmoNumber:
+    description: "The number to send an SMS from"
+    required: true
+  recipientNumber:
+    description: "The number to send an SMS to"
+    required: true
+  message:
+    description: "The message to send"
+    required: true
+runs:
+  using: "node12"
+  main: "dist/index.js"
