@@ -2,56 +2,51 @@
 
 Send an SMS from [GitHub Actions](https://github.com/features/actions) using [Nexmo](https://www.nexmo.com/). 
 
-For additional details, see the blog post [Send SMS with GitHub Actions](https://www.nexmo.com/blog/2019/02/08/send-sms-github-actions-dr/)
-
 ## Usage
 
-The `args` represent the recipient and the contents of the message. 
-
-For example:
-
 ```workflow
-workflow "Send SMS On Push" {
-  on = "push"
-  resolves = ["notification"]
-}
-
-action "notification" {
-    uses = "nexmo-community/nexmo-sms-action@master"
-    secrets = [
-        "NEXMO_API_KEY",
-        "NEXMO_API_SECRET",
-        "NEXMO_NUMBER"
-    ]
-    args = "15551234567 New pull on $GITHUB_REPOSITORY from $GITHUB_ACTOR."
-}
+name: Push to master
+on: [push]
+jobs:
+  send-sms:
+    name: Send SMS
+    runs-on: ubuntu-latest
+    steps:
+    - name: Send SMS
+      uses: nexmo-community/nexmo-sms-action@master
+      env:
+        NEXMO_API_KEY: ${{ secrets.NEXMO_API_KEY }}
+        NEXMO_API_SECRET: ${{ secrets.NEXMO_API_SECRET }}
+      with:
+        nexmoNumber: ${{ secrets.NEXMO_NUMBER }}
+        recipientNumber: 14155512345
+        message: "New push on ${{ github.repository }} from ${{ github.actor }}"
 ```
 
-will send `New pull on $GITHUB_REPOSITORY from $GITHUB_ACTOR` to `15551234567`. 
+will send `New push on org-name/repo-name from your_username` to `14155512345`. 
 
 If you don't want to expose your recipient number, you can use secrets.
 
 For example, a new secret called `DEVOPS_NUMBER` could be used inside of `args` as follows:
 
 ```workflow
-workflow "Send SMS On Push" {
-  on = "push"
-  resolves = ["notification"]
-}
-
-action "notification" {
-    uses = "nexmo-community/nexmo-sms-action@master"
-    secrets = [
-        "NEXMO_API_KEY",
-        "NEXMO_API_SECRET",
-        "NEXMO_NUMBER",
-        "DEVOPS_NUMBER"
-    ]
-    args = "$DEVOPS_NUMBER New pull on $GITHUB_REPOSITORY from $GITHUB_ACTOR."
-}
+name: Push to master
+on: [push]
+jobs:
+  send-sms:
+    name: Send SMS
+    runs-on: ubuntu-latest
+    steps:
+    - name: Send SMS
+      uses: nexmo-community/nexmo-sms-action@master
+      env:
+        NEXMO_API_KEY: ${{ secrets.NEXMO_API_KEY }}
+        NEXMO_API_SECRET: ${{ secrets.NEXMO_API_SECRET }}
+      with:
+        nexmoNumber: ${{ secrets.NEXMO_NUMBER }}
+        recipientNumber: ${{ secrets.RECIPIENT_NUMBER }}
+        message: "New push on ${{ github.repository }} from ${{ github.actor }}"
 ```
-
-This allows for you to reuse this action to send messages to various recipients.
 
 ## Secrets
 
@@ -61,45 +56,39 @@ This action uses the following required secrets:
 - `NEXMO_API_SECRET` - Your Nexmo API Secret.
 - `NEXMO_NUMBER` - A number on your Nexmo account without any spaces or symbols. Example: 15551231234
 
+
 ## Event Information
 
-GitHub stores the event information in the json file at `$GITHUB_EVENT_PATH`. You can use [jq] to parse this file and send its contents in the SMS:
+All of the information attached to an event is available in the `github.event` variable. To see the possible values, you can use the following step in your workflow:
 
-```sh
-jq .issue.html_url $GITHUB_EVENT_PATH --raw-output
+```yaml
+- run: echo '${{ toJson(github.event) }}'
 ```
+
+You can use this information in both the inputs for your action and to run the action conditionally.
 
 Here's an example of sending an SMS any time an issue is created with the urgent label:
 
 ```workflow
-workflow "Send SMS On Urgent Issue" {
-  resolves = [
-    "Send Urgent Issue Message",
-  ]
-  on = "issues"
-}
-
-action "Has Urgent Label" {
-  uses = "actions/bin/filter@8738e95"
-  args = "label urgent"
-}
-
-action "Label Being Added" {
-  uses = "actions/bin/filter@8738e95"
-  args = "action labeled"
-}
-
-action "Send Urgent Issue Message" {
-  needs = ["Label Being Added", "Has Urgent Label"]
-  secrets = [
-    "NEXMO_API_KEY",
-    "NEXMO_API_SECRET",
-    "NEXMO_NUMBER",
-    "DEVOPS_NUMBER",
-  ]
-  args = "$DEVOPS_NUMBER This urgent issue needs your attention: `jq .issue.html_url $GITHUB_EVENT_PATH --raw-output`"
-  uses = "nexmo-community/nexmo-sms-action@master"
-}
+name: Issue
+on:
+  issues:
+    types: [labeled]
+jobs:
+  send-sms:
+    name: Send SMS
+    runs-on: ubuntu-latest
+    steps:
+    - name: Send SMS
+      uses: nexmo-community/nexmo-sms-action@master
+      env:
+        NEXMO_API_KEY: ${{ secrets.NEXMO_API_KEY }}
+        NEXMO_API_SECRET: ${{ secrets.NEXMO_API_SECRET }}
+      with:
+        nexmoNumber: ${{ secrets.NEXMO_NUMBER }}
+        recipientNumber: ${{ secrets.RECIPIENT_NUMBER }}
+        message: "This urgent issue needs your attention: ${{ github.event.issue.html_url }}"
+      if: github.event.label.name == 'urgent'
 ```
 
 [GitHub Actions]: https://github.com/actions
