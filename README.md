@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Send SMS
-      uses: nexmo-community/nexmo-sms-action@master
+      uses: nexmo-community/nexmo-sms-action@update-to-v2
       env:
         NEXMO_API_KEY: ${{ secrets.NEXMO_API_KEY }}
         NEXMO_API_SECRET: ${{ secrets.NEXMO_API_SECRET }}
