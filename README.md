@@ -27,7 +27,7 @@ The example above will send `New push on org-name/repo-name from your_username` 
 
 If you don't want to expose your recipient number, you can use secrets.
 
-For example, a new secret called `DEVOPS_NUMBER` could be used inside of `with` as follows:
+For example, a new secret called `RECIPIENT_NUMBER` could be used inside of `with` as follows:
 
 ```workflow
 name: Push to master
@@ -44,7 +44,7 @@ jobs:
         NEXMO_API_SECRET: ${{ secrets.NEXMO_API_SECRET }}
       with:
         nexmoNumber: ${{ secrets.NEXMO_NUMBER }}
-        recipientNumber: ${{ secrets.DEVOPS_NUMBER }}
+        recipientNumber: ${{ secrets.RECIPIENT_NUMBER }}
         message: "New push on ${{ github.repository }} from ${{ github.actor }}"
 ```
 
