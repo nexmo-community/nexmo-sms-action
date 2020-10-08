@@ -1,6 +1,6 @@
 # Nexmo SMS Action
 
-Send an SMS from [GitHub Actions](https://github.com/features/actions) using [Nexmo](https://www.nexmo.com/). 
+Send an SMS from [GitHub Actions](https://github.com/features/actions) using [Nexmo](https://www.nexmo.com/).
 
 ## Usage
 
@@ -23,11 +23,11 @@ jobs:
         message: "New push on ${{ github.repository }} from ${{ github.actor }}"
 ```
 
-will send `New push on org-name/repo-name from your_username` to `14155512345`. 
+The example above will send `New push on org-name/repo-name from your_username` to `14155512345`.
 
 If you don't want to expose your recipient number, you can use secrets.
 
-For example, a new secret called `DEVOPS_NUMBER` could be used inside of `args` as follows:
+For example, a new secret called `RECIPIENT_NUMBER` could be used inside of `with` as follows:
 
 ```workflow
 name: Push to master
@@ -54,7 +54,7 @@ This action uses the following required secrets:
 
 - `NEXMO_API_KEY` - Your Nexmo API Key.
 - `NEXMO_API_SECRET` - Your Nexmo API Secret.
-- `NEXMO_NUMBER` - A number on your Nexmo account without any spaces or symbols. Example: 15551231234
+- `NEXMO_NUMBER` - A number on your Nexmo account without any spaces or symbols. Example: `15551231234`.
 
 
 ## Event Information
@@ -67,7 +67,7 @@ All of the information attached to an event is available in the `github.event` v
 
 You can use this information in both the inputs for your action and to run the action conditionally.
 
-Here's an example of sending an SMS any time an issue is created with the urgent label:
+Here's an example of sending an SMS any time an issue is created with the `urgent` label:
 
 ```workflow
 name: Issue
